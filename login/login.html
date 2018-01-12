@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.css" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+		<link rel="stylesheet" href="../css/icons-extra.css" />
+		<style type="text/css">
+			/*下面两项是重置muicss的输入框label和input之间的宽比率*/
+			.mui-input-row label {
+				width: 20%;
+			}
+
+			.mui-input-row label~input {
+				width: 80%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color" id="header">
+			<button type="button" class="mui-action-back mui-btn  mui-btn-link mui-pull-left own-button">
+		</button>
+			<h1 class="mui-title">登录</h1>
+		</header>
+
+
+		<div class="mui-content">
+			<div style="text-align: center;">
+					<img src="../images/logo-login.png" alt="图片加载失败.." />
+			</div>
+			<div class="mui-card" style="margin-top: 20px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-contact"></span></label>
+						<input id="userid" type="text" class="mui-input-clear" value="" placeholder="请输入手机号或邮箱" />
+					</div>
+					<div class="mui-input-row">
+						<label><span class="mui-icon mui-icon-locked"></span></label>
+						<input id="password" type="password" class="mui-input-clear" value="" placeholder="请输入密码" />
+					</div>
+					<div class="mui-button-row" style="margin: 10px 15px; border: none;">
+		                <button id="loginBtn" type="button" class="mui-btn mui-btn-red own-btn-red mui-btn-block " style="padding: 5px 0px; background: #E51C23;">登录</button>
+					</div>
+				</form>
+			</div>
+		</div>
+        <script src="../js/vue.js" charset="UTF-8"></script>
+		<script src="../js/mui.min.js" charset="UTF-8"></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();	
+			plus.navigator.setStatusBarBackground( "#E51C23" );
+
+			document.getElementById('loginBtn').addEventListener('tap', function(){
+				var userid = document.getElementById('userid').value;
+                var password = document.getElementById('password').value;
+				mui.plusReady(function(){
+					plus.storage.getItem('userid',userid);
+					var xhr = new XMLHttpRequest();
+				// 指定通信过程中状态改变时的回调函数
+				xhr.onreadystatechange = function(){
+				  // 通信成功时，状态值为4
+				  console.log(1);
+				  if (xhr.readyState === 4){
+				    if (xhr.status === 200){
+				    	plus.storage.setItem('regflag',xhr.response.regflag)
+				    	console.log(xhr.response.status);
+				    	console.log(xhr.response.message);
+				    	if(xhr.response.status==1){
+				    		mui.openWindow({
+				    			url:'../index.html',
+				    			id:'index.html'
+				    		});
+				    	}else{
+				    		mui.alert('账号或密码错误，请从新输入！')
+				    	}
+				    } else {
+				    	console.log(111);
+				    	 console.error(xhr.status);
+				    }
+				  }
+				};
+
+				xhr.onerror = function (e) {
+				  console.error(xhr.statusText);
+				};
+
+				// open方式用于指定HTTP动词、请求的网址、是否异步
+				xhr.open('POST', 'http://192.168.1.115:8080/ath/login', true);
+				// 发送HTTP请求
+				xhr.setRequestHeader('Content-Type', 'application/json');
+				xhr.responseType="json";
+
+				var data ={
+						userid:userid,
+						password:password
+				};
+					var jsonData=JSON.stringify(data);
+				xhr.send(jsonData);
+				});
+			});
+
+		</script>
+	</body>
+</html>

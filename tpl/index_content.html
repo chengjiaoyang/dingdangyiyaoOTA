@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>叮当医药</title>
+    <link href="../css/mui.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <style>
+		.mui-off-canvas-left {
+			color: #fff;
+		}
+		.title {
+			margin: 35px 15px 10px;
+		}
+		.title+.content {
+			margin: 10px 15px 35px;
+			color: #bbb;
+			text-indent: 1em;
+			font-size: 14px;
+			line-height: 24px;
+		}
+	</style>
+</head>
+<body>
+	<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+		<!--侧滑菜单部分-->
+		<aside id="offCanvasSide" class="mui-off-canvas-left">
+			<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="title">个人中心</div>
+					<ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
+						<li class="mui-table-view-cell">
+							<a href="changepassword.html" id="changePwd" class="mui-navigate-right">
+								修改密码
+							</a>
+						</li>
+						<li id="seting" class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								创建子账号
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</aside>
+		<header class="mui-bar mui-bar-nav" id="header">
+			<h1 class="mui-title">叮当医药</h1>
+			<a href="#offCanvasSide"  class="mui-action-menu mui-icon mui-icon-bars mui-pull-left"></a>
+			<a id="message" href="massage.html" class="mui-icon mui-icon-chatbubble mui-pull-right"></a>
+		</header>
+		<!--主界面部分-->
+		<div class="mui-inner-wrap">
+			<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+				<div style="min-height: 10px;width:100%;">
+					<div class="mui-inner-wrap">
+					<div class="mui-slider" id="index-slider">
+						<div class="mui-slider-group mui-slider-loop">
+							<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+							<!-- 第一张 -->
+							<div class="mui-slider-item">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+							<!-- 第二张 -->
+							<div class="mui-slider-item">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+							<!-- 第三张 -->
+							<div class="mui-slider-item">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+							<!-- 第四张 -->
+							<div class="mui-slider-item mui-active">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+							<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="porder.html">
+									<img src="../images/hui.jpg">
+								</a>
+							</div>
+						</div>
+						<div class="mui-slider-indicator">
+							<div class="mui-indicator mui-active"></div>
+							<div class="mui-indicator"></div>
+							<div class="mui-indicator"></div>
+							<div class="mui-indicator"></div>
+						</div>
+					</div>
+					<div id="ct">
+						<div class="mui-demo-container" id="home_prog">
+							<div>
+								<ul class="mui-table-view" id="prog">
+									<li class="mui-table-view-cell">
+										<h4>销售任务  <span>{{selthrough.snumber}}</span></h4>
+									    <p class="mui-progressbar mui-progressbar-in" id="xs" data-progress=""><span style="background-color: #E32929;"></span></p>
+									    <i>{{selthrough.sproportion}}</i>
+								    </li>
+								    <li class="mui-table-view-cell">
+								    	<h4>信誉额度  <span>{{creditLimit.cnumber}}</span></h4>
+									    <p class="mui-progressbar mui-progressbar-in" id="xy" data-progress=""><span style="background-color: #E32929;"></span></p>
+									    <i>{{creditLimit.cproportion}}</i>
+								    </li>
+							    </ul>
+							</div>
+						</div>
+					</div>
+				    <div class="mui-row">
+				    	<div class="mui-col-xs-6 cont">
+					    	<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-media">
+									<a href="javascript:;">
+										<img class="mui-media-object mui-pull-right" src="../images/dl.png">
+										<div class="mui-media-body title-color">
+											提成
+											<p class='mui-ellipsis'>{{deduct}}</p>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="mui-col-xs-6 cont">
+					    	<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-media">
+									<a href="javascript:;">
+										<img class="mui-media-object mui-pull-right" src="../images/dl.png">
+										<div class="mui-media-body title-color">
+											毛利
+											<p class='mui-ellipsis'>{{grossProfit}}</p>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+<!------------------------------------------------------------>
+						<div class="mui-col-xs-6 cont" id="index-zt" style="border-bottom: transparent;">
+					    	<ul style="width:100%;">
+					    		<!--------------------->
+					    		<li>
+					    			<div class="title-color">
+										<a href="javascript:;">
+											<span>在途订单</span>
+											<span class="mui-icon mui-icon-compose"></span>
+											<span class='mui-ellipsis'>{{erouteOrder.alleOrder}}</span>
+										</a>
+									</div>
+					    		</li>
+					    	</ul>
+						</div>
+						<div class="mui-col-xs-6 cont" id="index-tb" style="border-bottom: transparent;">
+							<ul>
+								<li>
+									<div class="title-color">
+										<a href="javascript:;">
+											<span>调拨申请</span>
+											<span class="mui-icon mui-icon-compose"></span>
+											<span class='mui-ellipsis'>{{transapplication.alltption}}</span>
+										</a>
+									</div>				
+								</li>
+							</ul>
+						</div>
+			        </div>
+	<!---------------------------------------------------->
+	<div id="index-or" class="mui-row" style="height:300px;">
+	    <div style="height:100%;box-sizing: border-box;border-right:1px solid #e1e1e1" class="mui-col-xs-6">
+	    	<div  class="shanglajiazai mui-scroll-wrapper">
+	    	    <div class="mui-scroll" >
+	    	        <ul>
+					    <li id="order_list" v-for="item in erouteOrder.eOrderList">
+					    	
+					    	<a href="onorder.html">
+								{{item.cusname}} 
+							<span>{{item.eorderStu}}</span>
+							</a>
+					    </li>
+					</ul>
+	    	    </div>
+	    	</div>
+	    </div>
+	    <div style="height:100%;box-sizing: border-box;border-right:1px solid gray" class="mui-col-xs-6">
+	    	<div id="shanglajiazai" class=" mui-scroll-wrapper">
+	    	    <div class="mui-scroll">
+	    	        <ul id="shanglajiazai2">
+					    <li v-for="item in transapplication.alltptionList">
+					    	<a href="#">
+								{{item.applyPoint}}
+							<span>{{item.tptionStu}}</span>
+							</a>
+					    </li>
+					</ul>
+	    	    </div>
+	    	</div>
+	    </div>
+		
+	</div>
+	<div id="tianchong" style="width:100%;height: 45px;"></div>
+			    </div>
+				</div>
+		    </div>
+		</div>
+			<!-- off-canvas背景 -->
+	    <div class="mui-off-canvas-backdrop"></div>
+	</div>
+	<script src="../js/mui.js"></script>
+	<script src="../js/vue.js"></script>
+	
+<script type="text/javascript" charset="utf-8">
+mui.init();
+//获得slider插件对象
+mui.plusReady(function(){
+	var gallery = mui('.mui-slider');
+		gallery.slider({
+		interval:3000//自动轮播周期，若为0则不自动播放，默认为0；
+	});
+		mui("#xs").progressbar({progress:50}).show();
+	    mui("#xy").progressbar({progress:70}).show();
+})
+mui('body').on('tap','#order_list>a',function(){
+	//获取id
+//  var id = this.getAttribute("id");
+//  //传值给详情页面，通知加载新数据
+//  mui.fire(detail,'getDetail',{id:id});
+    mui.openWindow({
+    url: this.href, 
+    id:this.href,
+    styles:{
+    top:'0',//新页面顶部位置
+    bottom:'0'//新页面底部位置
+	}
+  });
+});
+mui('body').on('tap','#message',function(){
+	//获取id
+//  var id = this.getAttribute("id");
+//  //传值给详情页面，通知加载新数据
+//  mui.fire(detail,'getDetail',{id:id});
+    mui.openWindow({
+    url: this.href, 
+    id:this.href,
+    styles:{
+    top:'0',//新页面顶部位置
+    bottom:'0'//新页面底部位置
+	}
+  });
+});
+mui('body').on('tap','#changePwd',function(){
+	//获取id
+//  var id = this.getAttribute("id");
+//  //传值给详情页面，通知加载新数据
+//  mui.fire(detail,'getDetail',{id:id});
+    mui.openWindow({
+    url: this.href, 
+    id:this.href,
+    styles:{
+    top:'0',//新页面顶部位置
+    bottom:'0'//新页面底部位置
+	}
+  });
+});
+var app = new Vue({
+			el:"#offCanvasWrapper",         
+			data:{
+				n:0,
+				list:[],
+				selthrough:{},
+				creditLimit:{},
+				deduct:{},
+				grossProfit:{},
+				erouteOrder:{},
+				transapplication:{}
+			}
+		});
+//		ajax--post请求-------------------------------------------
+	var xhr = new XMLHttpRequest();
+	
+	// 指定通信过程中状态改变时的回调函数
+	xhr.onreadystatechange = function(){
+	  // 通信成功时，状态值为4
+	  if (xhr.readyState === 4){
+	    if (xhr.status === 200){
+	      app.selthrough=xhr.response.selthrough;
+	      app.creditLimit=xhr.response.creditLimit;
+	      app.deduct=xhr.response.deduct;
+	      app.grossProfit=xhr.response.grossProfit;
+	      app.erouteOrder=xhr.response.erouteOrder;
+	      app.transapplication=xhr.response.transapplication;
+	    } else {
+	      console.error(xhr.statusText);
+	    }
+	  }
+	};	
+	xhr.onerror = function (e) {
+	  console.error(xhr.statusText);
+	};
+	xhr.responseType ='json';
+	// open方式用于指定HTTP动词、请求的网址、是否异步
+	xhr.open('POST', 'http://192.168.1.115:8080/ath/index', true);
+	// 发送HTTP请求
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	
+	xhr.send("userid=''");
+	
+	
+	
+//初始化scroll组件----------------------------------------
+	mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				 scrollX: false, //是否横向滚动
+				 startX: 0, //初始化时滚动至x
+				 startY:0, //初始化时滚动至y
+				 indicators:false, //是否显示滚动条
+				 deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+				 bounce: true //是否启用回弹
+			});
+//--------------------------------------------
+mui('.shanglajiazai').pullRefresh({
+	container: '.shanglajiazai',
+	up: {
+		  auto:true,//可选,默认false.自动上拉加载一次
+	      height:'150px',//可选.默认50.触发上拉加载拖动距离
+	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+	      contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+		   callback :function(){
+	      	if(app.n<app.erouteOrder.length){
+	      		app.list=app.list.concat(app.erouteOrder.slice(app.n,app.n+10));
+	      		app.n=app.n+10;
+	      		console.log(111)
+	      		this.endPullupToRefresh(false)
+	      	}else{
+	      		this.endPullupToRefresh(true)
+	      		
+	      	}
+	      } //必选，刷新函数，根
+	      
+	}
+});
+
+mui('#shanglajiazai').pullRefresh({
+	container: '#shanglajiazai',
+	up: {
+		  auto:true,//可选,默认false.自动上拉加载一次
+	      height:'150px',//可选.默认50.触发上拉加载拖动距离
+		  
+	      contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+	      contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+		   callback :function(){
+	      	if(app.n<app.transapplication.length){
+	      		app.list=app.list.concat(app.transapplication.slice(app.n,app.n+10));
+	      		app.n=app.n+10;
+	      		console.log(111)
+	      		this.endPullupToRefresh(false)
+	      	}else{
+	      		this.endPullupToRefresh(true)
+	      		
+	      	}
+	      } //必选，刷新函数，根
+	      
+}
+});
+//document.getElementById('seting').addEventListener('tap',function(){
+//	mui.openWindow({
+//		url:'seting.html', 
+//		id:'seting.html',
+//		});
+//})
+
+mui.plusReady(function(){
+	document.getElementById('seting').addEventListener('tap',function(){
+		var surper=plus.storage.getItem('regflag');
+		if(surper==1){
+			mui.openWindow({
+				url:'seting.html', 
+				id:'seting.html',
+				});
+		}else if(surper==0){
+			mui.alert('你不是内部人员')
+		}
+	
+})
+})
+</script>
+</body>
+</html>

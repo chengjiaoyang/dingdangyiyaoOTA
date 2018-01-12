@@ -1,0 +1,127 @@
+{
+  "tpl/index_content.html": {
+    "href": "tpl/index_content.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js",
+      "images/hui.jpg",
+      "images/dl.png"
+    ],
+    "refer": [
+      "tpl/register.html",
+      "tpl/massage.html",
+      "tpl/changepassword.html",
+      "tpl/onorder.html"
+    ],
+    "priority": 0
+  },
+  "tpl/ziying.html": {
+    "href": "tpl/ziying.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js",
+      "js/mui.picker.js",
+      "js/mui.poppicker.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "tpl/dingdan.html": {
+    "href": "tpl/dingdan.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "tpl/xiadan.html": {
+    "href": "tpl/xiadan.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js",
+      "js/mui.picker.js",
+      "js/mui.poppicker.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "css/mui.min.css",
+      "css/icons-extra.css",
+      "js/mui.min.js",
+      "tpl/index_content.html",
+      "css/mui.css"
+    ],
+    "refer": [
+      "tpl/index_content.html",
+      "tpl/ziying.html",
+      "tpl/dingdan.html",
+      "tpl/xiadan.html"
+    ],
+    "priority": 0
+  },
+  "login/login.html": {
+    "refer": [
+      "index.html"
+    ],
+    "resources": []
+  },
+  "tpl/register.html": {
+    "href": "tpl/register.html",
+    "resources": [
+      "css/mui.min.css",
+      "css/index.css",
+      "js/mui.min.js",
+      "js/vue.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "tpl/massage.html": {
+    "href": "tpl/massage.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "tpl/changepassword.html": {
+    "href": "tpl/changepassword.html",
+    "resources": [
+      "css/mui.css",
+      "js/mui.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "tpl/onorder.html": {
+    "href": "tpl/onorder.html",
+    "resources": [
+      "css/mui.css",
+      "css/icons-extra.css",
+      "css/index.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  }
+}

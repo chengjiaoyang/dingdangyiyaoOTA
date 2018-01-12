@@ -1,0 +1,441 @@
+<!doctype>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自营加上订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/icons-extra.css" />
+		<link rel="stylesheet" href="../css/index.css" />
+		<style>
+				#show_customername{
+					background: #E51C23;
+					color: #FFF;
+				}
+				.checked{
+					background: gray
+				}
+				.down_list{
+					font-size: 14px;
+					width:100%;
+					height:30px;
+					text-align: center;
+					line-height: 30px;
+					border-bottom: 1px solid #E5E5E5;
+				}
+				[v-cloak]{
+				 display: none;                                                                                                                                       
+		        }
+		       #mianban{
+				 	position: fixed;
+				 	top:77px;
+				 	left:0;
+				 	z-index:50;
+				 	width:100%;
+				 	font-size: 12px;
+				 }
+				 #btn-group{
+				 	margin-top: 50px;
+				 	text-align: center;
+				 	padding: 10px 0;
+				 }
+				 #btn-group>button{
+				 	width:100px;
+				 }
+				 
+		</style>
+	</head>
+	<body>		
+		<div id="app">
+			<div>
+				<ul v-show="bmanddz" id="mianban" class="mui-table-view">
+				    <li class="mui-table-view-cell mui-collapse">
+				        <a class="mui-navigate-right" href="#">购货地址：{{dizhiselect.transaddr}}</a>
+				        <div v-for="item in addrs" class="mui-collapse-content">
+				        	<div class="mui-input-row mui-radio">
+								<label v-text="item.transaddr"></label>
+								<input name="dizhi" type="radio" v-model="dizhiselect" v-bind:value="item">
+							</div>
+				        </div>
+				    </li>
+					<div id="btn-group">
+						<button @click="adddz" type="button" class="mui-btn mui-btn-blue">确定</button>
+						<button @click="bmanddz=false" type="button" class="mui-btn porder-btn">取消</button>
+					</div>
+				</ul>
+<!------------------------------------------------------------->				
+				<ul v-show="open_down_list" style="width:100%;background-color: white;position:fixed;top:41px;left: 0;z-index: 15;padding:0 2.5%">
+					<li class="down_list" style="height:34px;padding: 2px;display: flex;">
+						<div class="mui-input-row mui-search" style="width:70%;height:100%;border-radius:9px;background-color: #fff;">
+						    <input id="search_customername" type="search" class="mui-input-clear" placeholder="请输入终端名称">
+						</div>
+						<button id="show_customername" type="button" class="mui-btn mui-btn-red">查询购货单位</button>
+					</li>
+<!--这是收货单位	-->	<li class="down_list" @click="showname(index)" v-for="(item,index) in down_list">{{item.customername}}</li>
+				</ul>
+			    <header class="mui-bar mui-bar-nav" id="header" style="height:75px;">
+					<h1 @click="downlist" class="mui-title">{{txtname}}<span v-show="open_down_list==true" class="mui-icon mui-icon-arrowdown"></span><span v-show="open_down_list==false" class="mui-icon mui-icon-arrowup"></span></h1>	
+					<div class="mui-input-row mui-search" style="margin-top: 35px;">
+					    <input id="search" type="search" class="mui-input-clear" placeholder="请输入药品名称">
+					</div>
+				</header>
+			</div>
+<!--------------商品展示------------------------------------------------------------------->
+<div id="refreshContainer" class="mui-scroll-wrapper">
+    <div class="mui-scroll">
+     	<div class="mui-content" style="margin-top:76px;">
+				<div class="porder-cont">
+					<ul class="mui-table-view">
+						<li v-for="(item, index) in list" class="mui-table-view-cell">
+							<h4>{{item.goodsname}}</h4>
+							<ul id="porder-shop" class="mui-row">
+								<li class="mui-col-xs-4">{{item.companyname}}</li>
+								<li class="mui-col-xs-4">批号：{{item.lotno}}</li>
+								<li class="mui-col-xs-4">有效期：{{item.endvalidate}}</li>
+								<li class="mui-col-xs-4">规格：{{item.goodsspetype}}</li>
+								<li class="mui-col-xs-4">库存：{{item.goodsqty}}</li>
+								<li class="mui-col-xs-4">包装：{{item.packsize}}{{item.packname}}</li>
+							</ul>
+							<div class="order-q mui-row">
+								<p class="order-color mui-col-xs-4">¥{{item.unitprice}}</p>
+								<div class="mui-numbox mui-col-xs-4" data-numbox-step='1' data-numbox-min='0' data-numbox-max='100'>
+								    <button class="mui-btn mui-btn-numbox-minus" type="button" :disabled='item.checkes'>-</button>
+								    <input id='showUserPicker' class="mui-numbox-input" type="number" v-model='item.nums'  :disabled='item.checkes' value="1">
+								    <button class="mui-btn mui-btn-numbox-plus" type="button" :disabled='item.checkes'>+</button>
+								</div>
+							    <button :id='"porder_xia"+index' type="button" class="mui-btn xiadan_btn mui-col-xs-4" @click="order(index)" :class="{ 'checked': item.checkes}">{{item.test}}</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>  
+    </div>
+</div>
+<!------------以上是商品展示---------------------------------------------------------------------------------------->
+			<div id="porder-btn">
+					<button @click="postmessage" type="button" class="mui-btn porder-btn">提 交 审 核</button>
+				    <button type="button" class="mui-btn mui-btn-blue" @click='check_unsubmit'>查看未提交</button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.js"></script>
+		<script src="../js/vue.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript">	
+			var app=new Vue({
+					el:"#app",
+					data:{
+						open_down_list:false,
+						down_list:[],
+						list:{},
+						postlist:{	//提交数据
+							canOutGoods:[],customerid:'',customername:'',transaddrid:'',userid:'',password:''
+						},
+						bmanddz:false,
+						addrs:[],
+						dizhiselect:'',		 //购货地址
+						txtname:'客户终端口',  //客户名称
+					},
+					updated(){
+						mui('.mui-numbox').numbox();
+					},
+					methods:{
+					adddz:function(){
+					this.postlist.transaddrid=this.dizhiselect.transaddrid;
+						this.bmanddz=false;
+						this.open_down_list=false;
+							if(this.dizhiselect.transaddrid!==undefined){
+								mui.toast('购货单位地址：'+this.dizhiselect.transaddr+'已选定')
+							}else{
+								mui.alert('请选择购货单位地址')
+							}
+						},
+//-----------提交审核数据------------------------------------------------------------------------
+					postmessage:function(){
+						console.log('开始填装数组');
+						this.list.map(item=>{
+							if(item.checkes){
+								this.postlist.canOutGoods.push({
+									goodsid:item.goodsid,
+									goodsqty:item.nums,
+									unitprice:item.unitprice,
+									goodsname:item.goodsname
+								})
+							}
+						});
+						console.log('填装数组完毕');
+						console.log('处理数据格式');
+						
+						var jsonPostData=JSON.stringify(this.postlist);
+							console.log('开始判断');
+//---操作判断提示-----------------------------------------------------------------------------------------
+							if(this.postlist.canOutGoods.length!==0&&this.postlist.transaddrid!==''&&this.postlist.transaddrid!==undefined){
+								console.log('判断通过');
+								mui.ajax('http://192.168.1.115:8080/ath/placeAnOrder',{
+									data:jsonPostData,
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									headers:{'Content-Type':'application/json'},
+									success:function(data){
+										 if(data.flag==0){
+										 	mui.alert(data.result)
+										 }else if(data.flag==1){
+										 	mui.alert(data.result)
+										 }
+									},
+									error:function(xhr,type,errorThrown){
+										console.log(type); 
+									}
+								  });
+								}else if(this.postlist.canOutGoods.length==0&&this.postlist.transaddrid!==''){
+									mui.alert("您还没有添加商品");
+									console.log('未添加商品判断')
+								}else if(this.postlist.canOutGoods.length!==0&&this.postlist.transaddrid==''){
+									mui.alert("请添加购货单位信息");
+									console.log('未添加购货单位判断')
+								}else if(this.postlist.canOutGoods.length==0&&this.postlist.transaddrid==''){
+									mui.alert("请添加购货单位信息和商品信息");
+									console.log('什么都没有判断')
+								};
+						console.log('开始清空数组');
+							this.postlist.canOutGoods=[];
+						console.log('清空数组完毕');
+//-------------重置所有商品数据的选择状态----------------------------------------------------------
+						console.log('开始重置商品选择状态')
+							this.list.map(item=>{
+								if(item.checkes==true){
+									item.checkes=false;
+									item.checked=0;
+									item.test="下单";
+									item.nums=1;
+								}
+							});
+						console.log('重置商品选择状态完毕')
+						},
+//--111----客户终端口切换事件--------------------------------------------------------------------------------------
+						downlist:function(){
+							this.open_down_list=!this.open_down_list;
+						},
+//------购货单位显示时，点击事件---------------------------------------------------------------------------------------------
+						showname:function(index){
+							this.txtname=this.down_list[index].customername;
+							this.bmanddz=true;
+							this.postlist.customername=this.down_list[index].customername;
+							this.postlist.customerid=this.down_list[index].customerid;
+								console.log(1)
+							var that=this;
+							mui.ajax('http://192.168.1.115:8080/ath/searchDeptParam',{			  
+								//当input的值有关键字时   按关键字查询
+								data:{
+									customerid:that.postlist.customerid
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								headers:{'Content-Type':'application/json'},	              
+								success:function(data){
+									//服务器返回响应，根据响应结果，分析是否响应成功；
+									console.log('地址获取成功');
+									that.addrs=data.addrs;
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(type);
+								}
+							});
+							
+						},
+//-----下单按钮事件--------------------------------------------------------------------------------------------
+						order:function(index){
+							this.num=index;
+          				    var btn=document.getElementById('porder_xia'+index);
+          				    if(this.txtname == '客户终端口'){
+          				    	mui.alert("你不选择终端端口 你就下单？  你下给谁啊 难道下给你自己！！！")
+          				    }else if(this.list[index].checked==0){
+								this.list[index].checked=1;
+								this.list[index].test="取消";
+								this.list[index].checkes=true;
+								this.list[index].nums=btn.previousElementSibling.children[1].value;
+							}else{
+								this.list[index].checked=0;
+								this.list[index].test="下单";
+								this.list[index].checkes=false;
+							}
+						},
+						check_unsubmit:function(){
+							function compare(property){
+				    			return function(b,a){
+							        var value1 = a[property];
+							        var value2 = b[property];
+							        return value1 - value2;
+				    					}
+									}
+								this.list.sort(compare('checked'));
+						}
+					},
+					mounted:function(){
+						var that=this;
+						mui.plusReady(function(){
+							that.postlist.userid=plus.storage.getItem("userid");
+						});
+//------------------------------------------------------------
+						mui('.mui-scroll-wrapper').scroll({
+							scrollY: true, //是否竖向滚动
+							 startX: 0, //初始化时滚动至x
+							 startY: 0, //初始化时滚动至y
+							 indicators: true, //是否显示滚动条
+							 deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+							 bounce: false //是否启用回弹
+							});
+//-----------------------------------------
+//						mui.init({
+//						  pullRefresh : {
+//						    container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+//						    down : {
+//						      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+//						      color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+//						      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+//						      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+//						      offset:'100px', //可选 默认0px,下拉刷新控件的起始位置
+//						      auto: true,//可选,默认false.首次加载自动上拉刷新一次
+//						      callback :function(){
+//						      	console.log('拉一下')
+//						      	mui('#refreshContainer').pullRefresh().endPulldown();
+//						      } //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+//						    }
+//						  }
+//						});
+//	-------------------------------------------------------					
+					}
+			});
+//---------------实例外商品加载--------------------------------------------------------------------------
+			var choubaguai='';
+			 mui.plusReady(function(){
+				choubaguai=plus.storage.getItem("userid");
+							console.log(choubaguai)
+				mui.ajax('http://192.168.1.115:8080/ath/loadGoods',{
+				//当input的值有关键字时   按关键字查询
+				data:{
+					userid:choubaguai
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:1000,//超时时间设置为10秒；
+				headers:{'Content-Type':'application/json'},	              
+				success:function(data){
+					 //服务器返回响应，根据响应结果，处理响应内容;
+					app.list=data.goods;
+					data.goods.map(function(item){
+						item.checked=0;
+						item.test="下单";
+						item.checkes=false;
+						item.nums=1;
+					});
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log(type);
+				}
+			});
+//----购货单位查询----------------------------------------------------------------------
+			document.getElementById("show_customername").addEventListener('tap', function(){
+				var search_customername = document.getElementById("search_customername").value;				
+					if(search_customername != ''){
+						mui.ajax('http://192.168.1.115:8080/ath/searchPurUnits',{
+							//当input的值有关键字时   按关键字查询
+							data:{
+								purUnitcode:search_customername,
+								userid:choubaguai
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否响应成功；
+								if(data.vagueflag ==1){
+									app.down_list=data.purUnitsList;
+								}else{
+									mui.alert(data.result);
+								}															
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});								
+						console.log('有值');
+					}else{
+						//当input的值是空时   查询所有
+						mui.ajax('http://192.168.1.115:8080/ath/getPurUnits',{
+							data:{
+//								purUnitcode:''
+								userid:choubaguai
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								app.down_list=data.purUnitsList;
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+						console.log('空的');
+					}
+				});
+		});
+//----订单模态框--------------------------------------
+var mask = mui.createMask(function(){})
+//----页面刷新---------------------------------------------------
+				
+		</script>
+		<script type="text/javascript">
+			mui.init();
+//			搜索功能
+			mui.plusReady(function(){
+			    search.addEventListener('search', function(){
+			    	var search_goods = document.getElementById("search").value;
+			        mui.ajax('http://192.168.1.115:8080/ath/searchGood',{
+							//当input的值有关键字时   按关键字查询
+							data:{
+								goodcode:search_goods,
+								userid:plus.storage.getItem("userid")
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							async:false,
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否响应成功；
+								if(data.vagueflag ==1){
+									console.log(1)
+									data.goods.map(function(item){
+										item.checked=0;
+										item.test="下单";
+										item.checkes=false;
+										item.nums=1;
+									});
+								app.list=data.goods;
+								}else if(data.vagueflag == 0){
+									console.log(2)
+									mui.alert(data.result);
+								}															
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+	             	});		
+			    });						  
+			});   
+		</script>
+	</body>
+</html>

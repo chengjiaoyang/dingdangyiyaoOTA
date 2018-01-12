@@ -1,0 +1,89 @@
+{
+  "tpl/register.html": {
+    "href": "tpl/register.html",
+    "resources": [
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "css/index.css",
+      "js/mui.min.js",
+      "js/vue.js"
+    ],
+    "priority": 0
+  },
+  "tpl/massage.html": {
+    "href": "tpl/massage.html",
+    "resources": [
+      "css/mui.css",
+      "fonts/mui.ttf",
+      "css/icons-extra.css",
+      "fonts/mui-icons-extra.ttf",
+      "css/index.css",
+      "js/mui.js",
+      "js/vue.js"
+    ],
+    "priority": 1
+  },
+  "tpl/changepassword.html": {
+    "href": "tpl/changepassword.html",
+    "resources": [
+      "css/mui.css",
+      "fonts/mui.ttf",
+      "js/mui.js"
+    ],
+    "priority": 2
+  },
+  "tpl/onorder.html": {
+    "href": "tpl/onorder.html",
+    "resources": [
+      "css/mui.css",
+      "fonts/mui.ttf",
+      "css/icons-extra.css",
+      "fonts/mui-icons-extra.ttf",
+      "css/index.css",
+      "js/mui.min.js"
+    ],
+    "priority": 3
+  },
+  "tpl/index_content.html": {
+    "href": "tpl/index_content.html",
+    "resources": [],
+    "refer": [
+      "tpl/register.html",
+      "tpl/massage.html",
+      "tpl/changepassword.html",
+      "tpl/onorder.html"
+    ],
+    "priority": 0
+  },
+  "tpl/ziying.html": {
+    "href": "tpl/ziying.html",
+    "resources": [
+      "js/mui.picker.js",
+      "js/mui.poppicker.js"
+    ],
+    "priority": 1
+  },
+  "tpl/dingdan.html": {
+    "href": "tpl/dingdan.html",
+    "resources": [
+      "js/vue.js"
+    ],
+    "priority": 2
+  },
+  "tpl/xiadan.html": {
+    "href": "tpl/xiadan.html",
+    "resources": [
+      "js/mui.picker.js",
+      "js/mui.poppicker.js"
+    ],
+    "priority": 3
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "css/mui.css"
+    ],
+    "refer": [],
+    "priority": 0
+  }
+}
